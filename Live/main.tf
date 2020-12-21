@@ -110,4 +110,5 @@ module "alm" {
   container_port = "80"
   private_subnets = module.create_vpc.private_subnet_id
   container_full_repoid = "andreypindus/nodejam_container"
+  depends_on = [module.aws_alb, module.aws_rds]
 }

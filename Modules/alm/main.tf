@@ -113,6 +113,7 @@ resource "aws_ecs_service" "new_ecs_service" {
 resource "aws_codepipeline" "codepipeline" {
   name     = "tf-test-pipeline"
   role_arn = aws_iam_role.codepipeline_role.arn
+  depends_on = [aws_ecs_service.new_ecs_service]
 
   artifact_store {
     location = aws_s3_bucket.codepipeline_bucket.bucket
@@ -132,7 +133,6 @@ resource "aws_codepipeline" "codepipeline" {
 
       configuration = {
         ConnectionArn    = "arn:aws:codestar-connections:us-east-1:145476053377:connection/c5754338-cba2-4c98-8b47-83af3beb8d95"
-        FullRepositoryId = "andreypindus/nodejam_container"
         FullRepositoryId = var.container_full_repoid
         BranchName       = "master"
       }
